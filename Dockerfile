@@ -14,22 +14,19 @@ ENV PENTAHO_HOME="/pentaho" \
 
 LABEL server="Pentaho BA Server $PENTAHO_CE_VERSION CE"
 
-COPY . ${PENTAHO_HOME}
+COPY . "${PENTAHO_HOME}"
 
 RUN echo "Download and unpack Pentaho server..." \
-    && wget --progress=dot:giga https://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${PENTAHO_CE_VERSION}.zip/download -O pentaho-server-ce-${PENTAHO_CE_VERSION}.zip \
-    && cd ${PENTAHO_HOME} \
-    && unzip -q pentaho-server-ce-${PENTAHO_CE_VERSION}.zip \
+    && wget --progress=dot:giga https://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${PENTAHO_CE_VERSION}.zip/download -O ${PENTAHO_HOME}/pentaho-server-ce-${PENTAHO_CE_VERSION}.zip \
+    && cd "${PENTAHO_HOME}" \
+    && unzip -q "pentaho-server-ce-${PENTAHO_CE_VERSION}".zip \
     && rm -f pentaho-server-ce-${PENTAHO_CE_VERSION}.zip \
-    && ln -s $PENTAHO_HOME/pentaho-server /pentaho-server \
+    && ln -s "${PENTAHO_HOME}"/pentaho-server /pentaho-server \
     && apt-get update && apt-get -y install vim \
     && echo "Add Pentaho user..." \
     && useradd -md $PENTAHO_HOME -s /bin/bash $PENTAHO_USER \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
-    
-#COPY . ${PENTAHO_HOME}
-
-RUN chmod a+x "${PENTAHO_HOME}/entrypoint.sh"
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && chmod a+x "${PENTAHO_HOME}/entrypoint.sh"
 
 WORKDIR ${PENTAHO_HOME}
      
