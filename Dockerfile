@@ -2,22 +2,21 @@ ARG IMAGE_BASE="inspectorio/docker-java"
 ARG IMAGE_TAG="8"
 
 
-FROM ${IMAGE_BASE}:${IMAGE_TAG}
+FROM "${IMAGE_BASE}:${IMAGE_TAG}"
 MAINTAINER devops@inspectorio.com
 
 ENV PENTAHO_HOME="/pentaho" \
     DEBIAN_FRONTEND=noninteractive \
     PENTAHO_CE_VERSION=8.1.0.0-365 \
     PENTAHO_USER=pentaho \
-    BISERVER_VERSION=8.1 \
-    POSTGRESQL_DRIVER_VERSION=9.4.1212
+    BISERVER_VERSION=8.1
 
 LABEL server="Pentaho BA Server $PENTAHO_CE_VERSION CE"
 
 COPY . "${PENTAHO_HOME}"
 
 RUN echo "Download and unpack Pentaho server..." \
-    && wget --progress=dot:giga https://sourceforge.net/projects/pentaho/files/Pentaho%20"${BISERVER_VERSION}"/server/pentaho-server-ce-"${PENTAHO_CE_VERSION}".zip/download -O "${PENTAHO_HOME}"/pentaho-server-ce-"${PENTAHO_CE_VERSION}".zip \
+    && wget --progress=dot:giga "https://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${PENTAHO_CE_VERSION}.zip/download" -O "${PENTAHO_HOME}"/pentaho-server-ce-"${PENTAHO_CE_VERSION}".zip \
     && cd "${PENTAHO_HOME}" \
     && unzip -q "pentaho-server-ce-${PENTAHO_CE_VERSION}".zip \
     && rm -f pentaho-server-ce-"${PENTAHO_CE_VERSION}".zip \
@@ -32,4 +31,4 @@ WORKDIR "${PENTAHO_HOME}"
      
 
 EXPOSE 8080
-ENTRYPOINT ["/sbin/my_init", "--", "./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
