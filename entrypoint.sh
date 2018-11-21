@@ -39,4 +39,5 @@ init_biserver() {
 init_biserver
 fix_permission
 
-exec "$@"
+/bin/bash -c "trap : TERM INT; sleep infinity & wait"
+
