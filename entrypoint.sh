@@ -24,7 +24,7 @@ init_biserver() {
 		rm -rf .pentaho/* tmp/* pentaho-solutions/system/jackrabbit/repository/* /tmp/kettle tomcat/temp tomcat/work \
 			&& mkdir -p tmp/kettle tmp/osgi/cache tmp/osgi/data/log tmp/osgi/data/tmp tmp/tomcat/temp tmp/tomcat/work \
 				tomcat/logs/audit pentaho-solutions/system/logs \
-			&& sed "s|CATALINA_OPTS=.*|CATALINA_OPTS='${BI_JAVA_OPTS}'|" /pentaho-server/start-pentaho.sh \
+			&& sed -i -e "s|CATALINA_OPTS=.*|CATALINA_OPTS='${BI_JAVA_OPTS}'|" /pentaho-server/start-pentaho.sh \
 			&& sed -i -e "s|-Xms4096m -Xmx4096m|-Xms${JAVA_XMS} -Xmx${JAVA_XMX}|" /pentaho-server/start-pentaho.sh \
 			&& find $PENTAHO_HOME -type d -print0 | xargs -0 chown $PENTAHO_USER \
 			&& touch $PENTAHO_HOME/.initialized
