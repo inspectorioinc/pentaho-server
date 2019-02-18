@@ -25,6 +25,7 @@ RUN echo "Download and unpack Pentaho server..." \
     && echo "Add Pentaho user..." \
     && useradd -md "${PENTAHO_HOME}" -s /bin/bash "${PENTAHO_USER}" \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && sed -i 's| start | run |' "${PENTAHO_HOME}/pentaho-server/tomcat/bin/startup.sh"
     && chmod a+x "${PENTAHO_HOME}/entrypoint.sh"
 
 WORKDIR "${PENTAHO_HOME}"
